@@ -1,0 +1,14 @@
+[
+  {
+    "name":"CVE-2014-0160",
+    "tags":["heartbleed"]
+  },
+  {
+    "name":"CVE-2011-3389",
+    "tags":["beast"]
+  },
+  {
+    "name":"CVE-2015-3389",
+    "tags":["export rsa"]
+  }
+]

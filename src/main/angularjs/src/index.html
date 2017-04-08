@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en" ng-app="RDash">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>NiNVAS - Non-intrusive Network Vulnerability Assessment System</title>
+    <link rel="favorite icon" href="img/favicon.ico" type="image/x-icon">
+  <!-- STYLES -->
+  <!-- build:css lib/css/main.min.css -->
+  <link rel="stylesheet" type="text/css" href="components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="components/rdash-ui/dist/css/rdash.min.css">
+  <link rel="stylesheet" type="text/css" href="components/bootstrap-table/dist/bootstrap-table.min.css">
+  <!-- endbuild -->
+
+  <!-- SCRIPTS -->
+  <!-- build:js lib/js/main.min.js -->
+  <script type="text/javascript" src="components/angular/angular.min.js"></script>
+  <script type="text/javascript" src="components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <script type="text/javascript" src="components/angular-cookies/angular-cookies.min.js"></script>
+  <script type="text/javascript" src="components/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script type="text/javascript" src="components/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="components/bootstrap-table/dist/bootstrap-table.min.js"></script>
+  <!-- endbuild -->
+
+  <!-- Custom Scripts -->
+  <script type="text/javascript" src="js/dashboard.min.js"></script>
+
+</head>
+<body ng-controller="MasterCtrl">
+  <div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+      <ul class="sidebar">
+        <li class="sidebar-main">
+          <a ng-click="toggleSidebar()">
+            <img src="img/logo/NiNVAS.png" />
+            <span class="menu-icon glyphicon glyphicon-transfer"></span>
+          </a>
+        </li>
+        <li class="sidebar-list">
+          <a href="#" >Search <span class="menu-icon fa fa-search"></span></a>
+        </li>
+        <li class="sidebar-list">
+          <a href="#/history">History <span class="menu-icon fa fa-history"></span></a>
+        </li>
+
+      <div style="height:100px;">&nbsp;</div>
+
+      <div ng-show="showReferenceList">
+        <li class="sidebar-title"><span>References</span></li>
+        <li class="sidebar-list">
+          <a href="https://nvd.nist.gov/" target="__blank">NVD <span class="menu-icon fa fa-database"></span></a>
+        </li>
+        <li class="sidebar-list">
+          <a href="https://nvd.nist.gov/CVSS/v2-calculator" target="__blank">CVSS Calculator V2 <span class="menu-icon fa fa-calculator"></span></a>
+        </li>
+        <li class="sidebar-list">
+          <a href="https://www.first.org/cvss/v2/guide" target="__blank">CVSS V2 Guide <span class="menu-icon fa fa-bookmark"></span></a>
+        </li>
+
+        <li class="sidebar-title"><span>Resources</span></li>
+        <li class="sidebar-list">
+          <a href="http://shodan.io/" target="__blank">Shodan <span class="menu-icon fa fa-external-link"></span></a>
+        </li>
+
+        <li class="sidebar-list">
+          <a href="http://www.exploitsearch.net/" target="__blank">Exploit Search <span class="menu-icon fa fa-external-link"></span></a>
+        </li>
+
+        <li class="sidebar-list">
+          <a href="https://github.com/fooock/jshodan" target="__blank">jShodan Java API <span class="menu-icon fa fa-git"></span></a>
+        </li>
+
+        <li class="sidebar-list">
+          <a href="https://github.com/rdash/rdash-angular/blob/master/README.md" target="__blank">RDash Template <span class="menu-icon fa fa-git"></span></a>
+        </li>
+      </div>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="col-xs-4">
+          <a href="" target="_blank">
+            Github
+          </a>
+        </div>
+        <div class="col-xs-4">
+          <a href="" ng-click="showReferenceList=!showReferenceList">
+            References
+          </a>
+        </div>
+        <div class="col-xs-4">
+          <a href="mailto:joannarose.delmar@upou.edu.ph">
+            Support
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- End Sidebar -->
+
+    <div id="content-wrapper">
+      <div class="page-content">
+
+        <!-- Header Bar -->
+        <div class="row header">
+          <div class="col-xs-12">
+            <div class="user pull-right">
+              <div class="item dropdown" uib-dropdown>
+                <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
+                  <img src="img/logo/NiNVAS_sml.jpeg">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li class="dropdown-header">
+                    Non-intrusive Network <br />Assessment Vulnerability System
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="meta">
+              <div class="page">
+                {{meta.page.title}}
+              </div>
+              <div class="breadcrumb-links">
+                {{meta.page.title}} / {{meta.page.section}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Header Bar -->
+
+        <!-- Main Content -->
+        <div ui-view></div>
+
+      </div><!-- End Page Content -->
+    </div><!-- End Content Wrapper -->
+  </div><!-- End Page Wrapper -->
+</body>
+</html>
