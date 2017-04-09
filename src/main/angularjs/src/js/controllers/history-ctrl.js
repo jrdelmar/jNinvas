@@ -44,37 +44,41 @@ function HistoryCtrl($scope, $rootScope, $http) {
     }).success(function(data, status, headers, config) {
 
         $scope.loader = false;
-        $scope.data = data;
+        //$scope.data = data;
 
-        var totalSize = data.length;
+        var res = data;
 
-        if (totalSize == 0){
+        if (res.status == "error"){
             $rootScope.alerts.push({
-                type: 'warning',
-                msg: 'No items found!'
+                type: 'error',
+                msg: res.message
             });
+            $rootScope.$broadcast( '$scope.alerts' );
         } else {
 
-            //TODO:not working with sortable
-            /***
-            //pagination
-            $scope.goToPage(1); //first page
+            $scope.data = data.hostDtoList;
 
-            $scope.historyTable.totalPages = totalSize;
-            var max = Math.ceil(totalSize) / $scope.historyTable.pageSize; //[1,2,3...]get array of pages
+            var totalSize = $scope.data.length;
 
-            for (var i = 0; i < max; i++) {
-                $scope.pages.push(i+1);
+            if (totalSize == 0){
+                $rootScope.alerts.push({
+                    type: 'warning',
+                    msg: 'No items found!'
+                });
+            } else {
+
+                $rootScope.alerts.push({
+                    type: 'success',
+                    msg: res.message
+                });
             }
-            //16/4 => 4 [<< 1,2,3,4 >>]
-             **/
+            $rootScope.$broadcast( '$scope.alerts' );
 
-            $rootScope.alerts.push({
-                type: 'success',
-                msg: 'Successfully Retrieved!'
-            });
-        }
-        $rootScope.$broadcast( '$scope.alerts' );
+        }//success
+
+
+
+
 
     }).error(function() {
         // called asynchronously if an error occurs

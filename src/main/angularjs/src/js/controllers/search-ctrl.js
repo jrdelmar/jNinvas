@@ -22,8 +22,10 @@ function SearchCtrl($scope, $rootScope, $http) {
     $scope.loader = false;
     $scope.host = {};
 
-    $scope.searchShodan = {};
-
+    $scope.searchShodan = {
+        api:"",
+        hostIp:""
+    };
 
     $scope.search = function() {
 
@@ -49,7 +51,7 @@ function SearchCtrl($scope, $rootScope, $http) {
             var sendThis = {
                 api : $scope.searchShodan.api,
                 hostIp : $scope.searchShodan.hostIp
-            };;;;
+            };
 
             $http({
                 method : 'POST',
@@ -59,36 +61,53 @@ function SearchCtrl($scope, $rootScope, $http) {
             }).success(function(data, status, headers, config) {
 
                 $scope.loader = false;
-                $scope.host = data;
 
-                if($scope.host == undefined || $scope.host.ipStr == undefined || $scope.host.ipStr == ''){
+                //response Json
+                var res = data;
+                
+                console.log("responseJson => " + data);
+
+                if ( "error" == res.status){
                     $rootScope.alerts.push({
-                        type: 'warning',
-                        msg: 'No results retrieved.'
+                        type: 'danger',
+                        msg: res.message
                     });
 
                     $rootScope.$broadcast( '$scope.alerts' );
+
                 } else {
+                    //success message 
+                    $scope.host = res.hostDto;
 
-                    $scope.total_ports = $scope.host.totalPorts;
-                    $scope.total_services = $scope.host.totalServices;
-                    $scope.total_vulnerabilities = $scope.host.totalVulnerabilities;
-                    $scope.total_misconfigurations = $scope.host.totalMisconfigurations;
+                    if($scope.host == undefined || $scope.host.ipStr == undefined || $scope.host.ipStr == ''){
+                        $rootScope.alerts.push({
+                            type: 'warning',
+                            msg: 'No results retrieved.'
+                        });
 
-                    $('#tableV').bootstrapTable('load',$scope.host.exploitDto);
-                    $('#tableM').bootstrapTable('load',$scope.host.misconfigurationList);
-                    $('#tableP').bootstrapTable('load',$scope.host.bannerDto);
-                    $('#tableS').bootstrapTable('load',$scope.host.bannerDto);
+                        $rootScope.$broadcast( '$scope.alerts' );
+                    } else {
 
-                    $rootScope.alerts.push({
-                        type: 'success',
-                        msg: 'Successfully Retrieved!'
-                    });
+                        $scope.total_ports = $scope.host.totalPorts;
+                        $scope.total_services = $scope.host.totalServices;
+                        $scope.total_vulnerabilities = $scope.host.totalVulnerabilities;
+                        $scope.total_misconfigurations = $scope.host.totalMisconfigurations;
 
-                    $rootScope.$broadcast( '$scope.alerts' );
+                        $('#tableV').bootstrapTable('load',$scope.host.exploitDto);
+                        $('#tableM').bootstrapTable('load',$scope.host.misconfigurationList);
+                        $('#tableP').bootstrapTable('load',$scope.host.bannerDto);
+                        $('#tableS').bootstrapTable('load',$scope.host.bannerDto);
 
-                }
+                        $rootScope.alerts.push({
+                            type: 'success',
+                            msg: 'Successfully Retrieved!'
+                        });
 
+                        $rootScope.$broadcast( '$scope.alerts' );
+
+                    }
+
+                }//success message
 
             }).error(function() {
                 // called asynchronously if an error occurs
@@ -103,9 +122,6 @@ function SearchCtrl($scope, $rootScope, $http) {
             });
 
         }//end of valid
-
-
-
     };
 
 
@@ -114,7 +130,6 @@ function SearchCtrl($scope, $rootScope, $http) {
         var content = "";
         var extension = "";
         var type = "";
-
 
         if(saveAs=="json"){
             extension = "_details.json";
